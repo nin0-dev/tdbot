@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+		"oceanic.js": "^1.11.2",
+		"tsx": "^4.19.2",
+		"typescript": "^5.7.3"
+	},
+	"scripts": {
+		"dev": "tsx --watch --env-file-if-exists=.env src/index.ts"
+	}
+}
