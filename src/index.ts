@@ -50,7 +50,8 @@ client.on("ready", async () => {
 				integrationTypes: [
 					ApplicationIntegrationTypes.GUILD_INSTALL,
 					ApplicationIntegrationTypes.USER_INSTALL
-				]
+				],
+				options: command.args
 			};
 		})
 	);
@@ -67,6 +68,7 @@ client.on("interactionCreate", async interaction => {
 						command => command.name === interaction.data.name
 					);
 					if (!possibleCommand) return;
+					console.log(possibleCommand);
 					if (
 						possibleCommand.ownerOnly &&
 						interaction.user.id !== ownerID
@@ -78,7 +80,10 @@ client.on("interactionCreate", async interaction => {
 						return;
 					}
 
-					command.execute(interaction, interaction.data.options);
+					possibleCommand.execute(
+						interaction,
+						interaction.data.options
+					);
 					break;
 				}
 			}
