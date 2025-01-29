@@ -4,8 +4,8 @@ import { Command } from "../../utils/types";
 const command: Command = {
 	name: "kys",
 	description: "requested by vending.machine",
-	ownerOnly: true,
-	trustedOnly: false,
+	ownerOnly: false,
+	trustedOnly: true,
 	args: [
 		{
 			type: ApplicationCommandOptionTypes.USER,
