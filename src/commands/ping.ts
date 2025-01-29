@@ -1,14 +1,14 @@
 import { Command } from "../../utils/types";
 
 const command: Command = {
-	name: "ping",
+	name: "wing",
 	description: "See if I am alive",
 	ownerOnly: false,
 	trustedOnly: false,
 	args: undefined,
 	execute: async int => {
 		int.reply({
-			content: "Pong!"
+			content: "Wong!"
 		});
 	}
 };
