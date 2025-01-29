@@ -68,7 +68,6 @@ client.on("interactionCreate", async interaction => {
 						command => command.name === interaction.data.name
 					);
 					if (!possibleCommand) return;
-					console.log(possibleCommand);
 					if (
 						possibleCommand.ownerOnly &&
 						interaction.user.id !== ownerID
