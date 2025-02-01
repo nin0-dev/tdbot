@@ -23,6 +23,10 @@ export async function sendGameMessage(
 	await int.createFollowup({
 		embeds: [
 			{
+				author: {
+					name: int.user.tag,
+					iconURL: int.user.avatarURL("png")
+				},
 				description: `## ${
 					data.type === "Truth"
 						? ":tea:"
