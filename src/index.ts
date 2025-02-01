@@ -10,9 +10,9 @@ import { readdirSync } from "fs";
 import { join } from "path";
 import { readdir } from "fs/promises";
 import command from "./commands/ping";
-import { Command } from "../utils/types";
+import { Command, ComponentInteraction, FormInteraction } from "../utils/types";
 
-const client = new Client({
+export const client = new Client({
 	auth: `Bot ${process.env.DISCORD_TOKEN}`,
 	allowedMentions: {
 		users: false,
@@ -22,6 +22,8 @@ const client = new Client({
 	}
 });
 export const commands: Command[] = [];
+export let componentInteractions: ComponentInteraction[] = [];
+export let modalInteractions: FormInteraction[] = [];
 let ownerID: string;
 
 client.on("ready", async () => {
@@ -34,6 +36,18 @@ client.on("ready", async () => {
 	for (const file of commandFiles) {
 		const command = await import(join(__dirname, "commands", file));
 		commands.push(command.default);
+		if (command.default.components) {
+			command.default.components.forEach(
+				(component: ComponentInteraction) => {
+					componentInteractions.push(component);
+				}
+			);
+		}
+		if (command.default.modals) {
+			command.default.modals.forEach((modal: FormInteraction) => {
+				modalInteractions.push(modal);
+			});
+		}
 	}
 
 	await client.application.bulkEditGlobalCommands(
@@ -56,7 +70,9 @@ client.on("ready", async () => {
 		})
 	);
 
-	console.log(`Loaded ${commands.length} commands`);
+	console.log(
+		`Loaded ${commands.length} commands, ${componentInteractions.length} components`
+	);
 });
 
 client.on("interactionCreate", async interaction => {
@@ -86,6 +102,31 @@ client.on("interactionCreate", async interaction => {
 					break;
 				}
 			}
+			break;
+		}
+		case InteractionTypes.MESSAGE_COMPONENT: {
+			const component = componentInteractions.find(component => {
+				try {
+					if (interaction.data.customID.match(component.id))
+						return true;
+				} catch {
+					return false;
+				}
+			});
+			if (!component) return;
+			component.execute(interaction);
+			break;
+		}
+		case InteractionTypes.MODAL_SUBMIT: {
+			const modal = modalInteractions.find(modal => {
+				try {
+					if (interaction.data.customID.match(modal.id)) return true;
+				} catch {
+					return false;
+				}
+			});
+			if (!modal) return;
+			modal.execute(interaction);
 			break;
 		}
 	}
