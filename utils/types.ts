@@ -8,6 +8,10 @@ import {
 } from "oceanic.js";
 import { ComponentInteraction as OceanicComponentInteraction } from "oceanic.js";
 
+export enum QuestionFlags {
+	Blacklisted = 1 << 0
+}
+
 export type ComponentInteraction = {
 	id: RegExp;
 	execute: (int: OceanicComponentInteraction) => void;
