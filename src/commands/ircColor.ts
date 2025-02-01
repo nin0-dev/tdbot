@@ -27,7 +27,9 @@ const command: Command = {
 		int.createFollowup({
 			embeds: [
 				{
-					description: `<@${userID}>'s IRC color: \`${color.hex()}\``,
+					description: `<@${userID}>'s IRC colo${
+						int.locale === "en-GB" ? "u" : ""
+					}r: \`${color.hex()}\``,
 					color: color.num(),
 					image: {
 						url: "attachment://color.png"
