@@ -11,6 +11,7 @@ import { join } from "path";
 import { readdir } from "fs/promises";
 import command from "./commands/ping";
 import { Command, ComponentInteraction, FormInteraction } from "../utils/types";
+import { psqlClient } from "./utils/database";
 
 export const client = new Client({
 	auth: `Bot ${process.env.DISCORD_TOKEN}`,
@@ -24,7 +25,7 @@ export const client = new Client({
 export const commands: Command[] = [];
 export let componentInteractions: ComponentInteraction[] = [];
 export let modalInteractions: FormInteraction[] = [];
-let ownerID: string;
+export let ownerID: string;
 
 client.on("ready", async () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -134,4 +135,5 @@ client.on("interactionCreate", async interaction => {
 	}
 });
 
+psqlClient.connect();
 client.connect();
