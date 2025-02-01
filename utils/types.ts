@@ -3,6 +3,7 @@ import {
 	CommandInteraction,
 	Interaction,
 	InteractionOptionsWrapper,
+	LocaleMap,
 	ModalSubmitInteraction
 } from "oceanic.js";
 import { ComponentInteraction as OceanicComponentInteraction } from "oceanic.js";
@@ -18,6 +19,8 @@ export type FormInteraction = {
 
 export type Command = {
 	name: string;
+	localisedNames?: LocaleMap;
+	localisedDescriptions?: LocaleMap;
 	description: string;
 	ownerOnly?: boolean | undefined;
 	trustedOnly?: boolean | undefined;

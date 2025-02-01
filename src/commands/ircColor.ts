@@ -6,6 +6,12 @@ import { hash as h64 } from "@intrnl/xxhash64";
 
 const command: Command = {
 	name: "irc_color",
+	localisedNames: {
+		"en-GB": "irc_colour"
+	},
+	localisedDescriptions: {
+		"en-GB": "Find yours/someone's colour in the vencord IRCColours plugin"
+	},
 	description: "Find yours/someone's color in the vencord IRCColors plugin",
 	execute(int, args) {
 		int.defer();

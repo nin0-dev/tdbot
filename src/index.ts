@@ -54,6 +54,8 @@ client.on("ready", async () => {
 		commands.map(command => {
 			return {
 				name: command.name,
+				nameLocalizations: command.localisedNames || {},
+				descriptionLocalizations: command.localisedDescriptions || {},
 				description: command.description,
 				type: ApplicationCommandTypes.CHAT_INPUT,
 				contexts: [
