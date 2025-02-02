@@ -11,9 +11,6 @@ importers:
       '@intrnl/xxhash64':
         specifier: ^0.1.2
         version: 0.1.2
-      '@types/chroma-js':
-        specifier: ^3.1.1
-        version: 3.1.1
       canvas:
         specifier: ^3.1.0
         version: 3.1.0
@@ -26,16 +23,19 @@ importers:
       pg:
         specifier: ^8.13.1
         version: 8.13.1
+    devDependencies:
+      '@types/chroma-js':
+        specifier: ^3.1.1
+        version: 3.1.1
+      '@types/pg':
+        specifier: ^8.11.11
+        version: 8.11.11
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
-    devDependencies:
-      '@types/pg':
-        specifier: ^8.11.11
-        version: 8.11.11
 
 packages:
 
