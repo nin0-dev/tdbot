@@ -109,46 +109,11 @@ const command: Command = {
 					value: "truth+dare+nhie"
 				}
 			]
-		},
-		{
-			type: ApplicationCommandOptionTypes.STRING,
-			name: "rating",
-			description: "Allowed question ratings",
-			required: true,
-			choices: [
-				{
-					name: "PG only",
-					value: "pg"
-				},
-				{
-					name: "PG and PG-13",
-					value: "pg+pg13"
-				},
-				{
-					name: "PG-13 only",
-					value: "pg13"
-				},
-				{
-					name: "🚩 PG-13 and R",
-					value: "pg13+r"
-				},
-				{
-					name: "🚩 R only",
-					value: "r"
-				},
-				{
-					name: "🚩 All of the above",
-					value: "pg+pg13+r"
-				}
-			]
 		}
 	],
 	execute: async (int, args) => {
 		await int.defer();
-		const data = await getQuestion(
-			args.getString("type", true),
-			args.getString("rating", true)
-		);
+		const data = await getQuestion(args.getString("type", true), "pg+pg13");
 		await sendGameMessage(int, args, data);
 	},
 	components: [
