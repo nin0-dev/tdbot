@@ -59,16 +59,7 @@ export async function sendGameMessage(
 							"type",
 							true
 						)}_${args.getString("rating", true)}`
-					},
-					data.type === "Truth"
-						? {
-								type: ComponentTypes.BUTTON,
-								label: "Answer",
-								style: ButtonStyles.SECONDARY,
-								emoji: await getEmoji("answer", "object"),
-								customID: `answer`
-						  }
-						: undefined
+					}
 				].filter(x => {
 					return x === undefined ? false : true;
 				})
@@ -162,48 +153,6 @@ const command: Command = {
 	},
 	components: [
 		{
-			id: /^answer$/,
-			execute: async int => {
-				if (int.message?.embeds[0].fields) {
-					const answers = int.message.embeds[0].fields![0].value;
-					if (
-						answers.includes(`-# ${int.user.tag}`) &&
-						int.channelID !== "1333952480123551744"
-					) {
-						await int.reply({
-							content: ":anger: You already answered this!",
-							flags: MessageFlags.EPHEMERAL
-						});
-						return;
-					}
-
-					if (answers.length + 100 > 1024) {
-						var newMaxLength = 1024 - answers.length;
-					}
-				}
-				int.createModal({
-					title: "Answer",
-					customID: "answer",
-					components: [
-						{
-							type: ComponentTypes.ACTION_ROW,
-							components: [
-								{
-									type: ComponentTypes.TEXT_INPUT,
-									label: "Your answer",
-									required: true,
-									customID: "field",
-									style: TextInputStyles.PARAGRAPH,
-									// @ts-expect-error
-									maxLength: newMaxLength ?? 1024
-								}
-							]
-						}
-					]
-				});
-			}
-		},
-		{
 			id: /^next_/,
 			execute: async int => {
 				await int.defer();
@@ -211,6 +160,10 @@ const command: Command = {
 					int.data.customID.split("_")[1],
 					int.data.customID.split("_")[2]
 				);
+				if (Object.keys(int.authorizingIntegrationOwners)[0] === "0")
+					int.message.edit({
+						components: []
+					});
 				await sendGameMessage(
 					// @ts-ignore
 					int,
@@ -225,64 +178,6 @@ const command: Command = {
 					},
 					data
 				);
-			}
-		}
-	],
-	modals: [
-		{
-			id: /^answer$/,
-			execute: async int => {
-				if (!int.message) return;
-				if (!int.message.embeds[0].fields) {
-					const originalEmbed = int.message.embeds[0];
-					originalEmbed.fields = [
-						{
-							name: "Answers",
-							value: `> -# ${int.user.tag}\n> ${sanitize(
-								int.data.components.getTextInput("field", true)
-							).replaceAll("\n", "\n> ")}`
-						}
-					];
-					await int.editParent({
-						embeds: [originalEmbed]
-					});
-				} else {
-					const originalEmbed = int.message.embeds[0];
-					if (
-						originalEmbed.fields![0].value.length +
-							int.data.components.getTextInput("field", true)
-								.length +
-							100 >
-						1024
-					) {
-						const originalButtons = int.message.components;
-						originalButtons[0].components[1].disabled = true;
-						await int.editParent({
-							components: originalButtons
-						});
-						await int.createFollowup({
-							content: ":anger: Answer is too long!",
-							flags: MessageFlags.EPHEMERAL
-						});
-						return;
-					}
-					originalEmbed.fields = [
-						{
-							name: "Answers",
-							value:
-								originalEmbed.fields![0].value +
-								`\n> -# ${int.user.tag}\n> ${sanitize(
-									int.data.components.getTextInput(
-										"field",
-										true
-									)
-								).replaceAll("\n", "\n> ")}`
-						}
-					];
-					await int.editParent({
-						embeds: [originalEmbed]
-					});
-				}
 			}
 		}
 	]

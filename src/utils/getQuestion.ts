@@ -23,13 +23,7 @@ export async function getQuestion(
 			`https://api.truthordarebot.xyz/v1/${questionType}?${questionRatings}`
 		)
 	).json();
-
-	const query = await psqlClient.query(
-		"SELECT * FROM questionflags WHERE id=$1",
-		[data.id]
-	);
-	if (query.rowCount) return getQuestion(type, rating);
-
+	console.log(data);
 	return {
 		// @ts-ignore
 		id: data.id,

@@ -135,5 +135,5 @@ client.on("interactionCreate", async interaction => {
 	}
 });
 
-psqlClient.connect();
+// psqlClient.connect();
 client.connect();
