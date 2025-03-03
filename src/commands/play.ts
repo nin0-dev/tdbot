@@ -55,10 +55,7 @@ export async function sendGameMessage(
 						label: "Next",
 						style: ButtonStyles.PRIMARY,
 						emoji: await getEmoji("next", "object"),
-						customID: `next_${args.getString(
-							"type",
-							true
-						)}_${args.getString("rating", true)}`
+						customID: `next_${args.getString("type", true)}_pg+pg13`
 					}
 				].filter(x => {
 					return x === undefined ? false : true;
