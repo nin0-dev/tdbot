@@ -110,6 +110,13 @@ const command: Command = {
 	],
 	execute: async (int, args) => {
 		await int.defer();
+		if (int.channel?.id === "1026504914131759104") {
+			await int.createFollowup({
+				content:
+					"go to https://discord.com/channels/1015060230222131221/1333068886605824125"
+			});
+			return;
+		}
 		const data = await getQuestion(args.getString("type", true), "pg+pg13");
 		await sendGameMessage(int, args, data);
 	},
